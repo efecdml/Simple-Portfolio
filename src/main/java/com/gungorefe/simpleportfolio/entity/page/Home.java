@@ -1,10 +1,13 @@
 package com.gungorefe.simpleportfolio.entity.page;
 
+import com.gungorefe.simpleportfolio.entity.page.component.HomeCarouselSection;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Collection;
 
 @AllArgsConstructor
 @Getter
@@ -20,9 +23,15 @@ public class Home implements Page {
     private String text;
     private String secondTitle;
     private String secondText;
+    @OneToMany(mappedBy = "home")
+    private Collection<HomeCarouselSection> homeCarouselSections;
     @JoinColumn(name = "locale_id")
     @OneToOne(fetch = FetchType.LAZY)
     private Locale locale;
+
+    public Home(int id) {
+        this.id = id;
+    }
 
     public Home(int id, int localeId) {
         this.id = id;

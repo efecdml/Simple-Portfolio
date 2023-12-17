@@ -1,8 +1,10 @@
 package com.gungorefe.simpleportfolio.exception;
 
+import com.gungorefe.simpleportfolio.exception.image.ImageNotFoundException;
 import com.gungorefe.simpleportfolio.exception.image.MalformedImageMimeTypeException;
 import com.gungorefe.simpleportfolio.exception.image.UnacceptableImageMimeTypeException;
 import com.gungorefe.simpleportfolio.exception.image.UnacceptableImageNameException;
+import com.gungorefe.simpleportfolio.exception.page.ComponentNotFoundException;
 import com.gungorefe.simpleportfolio.exception.page.InvalidLocaleException;
 import com.gungorefe.simpleportfolio.exception.page.PageNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -46,6 +48,22 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler(PageNotFoundException.class)
     public ResponseEntity<?> pageNotFoundException(PageNotFoundException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(ComponentNotFoundException.class)
+    public ResponseEntity<?> componentNotFoundException(ComponentNotFoundException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(ImageNotFoundException.class)
+    public ResponseEntity<?> imageNotFoundException(ImageNotFoundException exception) {
         return new ResponseEntity<>(
                 exception.getMessage(),
                 HttpStatus.NOT_FOUND

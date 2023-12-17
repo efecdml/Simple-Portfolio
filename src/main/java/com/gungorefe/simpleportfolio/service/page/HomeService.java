@@ -17,7 +17,7 @@ public class HomeService {
     private final HomeDtoConverter dtoConverter;
 
     public HomeDto getDto(String localeName) {
-        Home home = repository.findByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory
+        Home home = repository.findWithCarouselSectionsByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory
                 .getPageNotFoundException(PageName.HOME));
 
         return dtoConverter.convertToHomeDto(home);
