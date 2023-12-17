@@ -22,9 +22,8 @@ public class WorksService {
     private final WorksDtoConverter dtoConverter;
 
     public WorksDto getDto(String localeName) {
-        Works works = repository.findByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory.getPageNotFoundException(
-                PageName.WORKS
-        ));
+        Works works = repository.findWithWorksDetailedCardByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory
+                .getPageNotFoundException(PageName.WORKS));
 
         return dtoConverter.convertToWorksDto(works);
     }

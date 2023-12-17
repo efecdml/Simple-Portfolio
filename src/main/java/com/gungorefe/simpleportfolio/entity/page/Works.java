@@ -1,10 +1,13 @@
 package com.gungorefe.simpleportfolio.entity.page;
 
+import com.gungorefe.simpleportfolio.entity.page.component.WorksDetailedCard;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Collection;
 
 @AllArgsConstructor
 @Getter
@@ -20,9 +23,20 @@ public class Works implements Page {
     private String title;
     @Column(columnDefinition = "text")
     private String text;
+    @OneToMany(mappedBy = "works")
+    private Collection<WorksDetailedCard> worksDetailedCards;
     @JoinColumn(name = "locale_id")
     @OneToOne(fetch = FetchType.LAZY)
     private Locale locale;
+
+    public Works(int id) {
+        this.id = id;
+    }
+
+    public Works(int id, int localeId) {
+        this.id = id;
+        this.locale = new Locale(localeId);
+    }
 
     public Works(int id, String imageName, int localeId) {
         this.id = id;

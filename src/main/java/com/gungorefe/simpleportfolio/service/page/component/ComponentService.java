@@ -16,6 +16,7 @@ import java.util.Set;
 public class ComponentService {
     private final HomeCarouselSectionService homeCarouselSectionService;
     private final HomeSimpleCardService homeSimpleCardService;
+    private final WorksDetailedCardService worksDetailedCardService;
 
     public Component create(
             ComponentName componentName,
@@ -34,6 +35,11 @@ public class ComponentService {
                     localeName,
                     (CreateHomeSimpleCardRequest) request
             );
+            case WORKS_DETAILED_CARD -> worksDetailedCardService.create(
+                    image,
+                    localeName,
+                    (CreateWorksDetailedCardRequest) request
+            );
         };
     }
 
@@ -44,6 +50,7 @@ public class ComponentService {
         return switch (ComponentName.get(componentName)) {
             case HOME_CAROUSEL_SECTION -> homeCarouselSectionService.getDto(id);
             case HOME_SIMPLE_CARD -> homeSimpleCardService.getDto(id);
+            case WORKS_DETAILED_CARD -> worksDetailedCardService.getDto(id);
         };
     }
 
@@ -53,6 +60,10 @@ public class ComponentService {
 
     public Set<HomeSimpleCardDto> getAllHomeSimpleCardDtos(String localeName) {
         return homeSimpleCardService.getAllDtos(localeName);
+    }
+
+    public Set<WorksDetailedCardDto> getAllWorksDetailedCardDtos(String localeName) {
+        return worksDetailedCardService.getAllDtos(localeName);
     }
 
     public Image getImage(
@@ -66,6 +77,10 @@ public class ComponentService {
                     imageName
             );
             case HOME_SIMPLE_CARD -> homeSimpleCardService.getImage(
+                    id,
+                    imageName
+            );
+            case WORKS_DETAILED_CARD -> worksDetailedCardService.getImage(
                     id,
                     imageName
             );
@@ -86,6 +101,10 @@ public class ComponentService {
                     image,
                     (UpdateHomeSimpleCardRequest) request
             );
+            case WORKS_DETAILED_CARD -> worksDetailedCardService.update(
+                    image,
+                    (UpdateWorksDetailedCardRequest) request
+            );
         };
     }
 
@@ -96,6 +115,7 @@ public class ComponentService {
         switch (ComponentName.get(componentName)) {
             case HOME_CAROUSEL_SECTION -> homeCarouselSectionService.delete(id);
             case HOME_SIMPLE_CARD -> homeSimpleCardService.delete(id);
+            case WORKS_DETAILED_CARD -> worksDetailedCardService.delete(id);
         }
     }
 }
