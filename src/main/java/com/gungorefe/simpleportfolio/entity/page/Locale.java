@@ -27,6 +27,8 @@ public class Locale {
     private Collection<HomeCarouselSection> homeCarouselSections;
     @OneToMany(mappedBy = "locale")
     private Collection<HomeSimpleCard> homeSimpleCards;
+    @OneToOne(mappedBy = "locale")
+    private Works works;
 
     public Locale(String name) {
         this.name = name;

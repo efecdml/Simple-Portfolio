@@ -30,7 +30,8 @@ public class HomeController {
         service.update(
                 localeName,
                 PageName.HOME,
-                request
+                request,
+                null
         );
 
         return ResponseEntity.ok().build();

@@ -1,8 +1,8 @@
 package com.gungorefe.simpleportfolio.page;
 
-import com.gungorefe.simpleportfolio.dto.page.HomeDto;
 import com.gungorefe.simpleportfolio.dto.page.PageDto;
-import com.gungorefe.simpleportfolio.dto.page.UpdateHomeRequest;
+import com.gungorefe.simpleportfolio.dto.page.UpdateWorksRequest;
+import com.gungorefe.simpleportfolio.dto.page.WorksDto;
 import com.gungorefe.simpleportfolio.entity.page.Page;
 import com.gungorefe.simpleportfolio.service.page.PageService;
 import com.gungorefe.simpleportfolio.vo.LocaleName;
@@ -18,37 +18,35 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ActiveProfiles("test")
-@Sql(scripts = {"/home-data.sql"})
+@Sql(scripts = {"/works-data.sql"})
 @TestPropertySource(locations = "classpath:application-test.properties")
 @SpringBootTest
-public class HomeServiceTest {
+public class WorksServiceTest {
     @Autowired
     private PageService service;
 
     @Test
-    public void givenHomePageNameAndEnglishLocaleName_shouldReturnHomeDto() {
+    public void givenWorksPageNameAndEnglishLocaleName_shouldReturnWorksDto() {
         PageDto dto = service.getDto(
-                LocaleName.TURKISH.value,
-                PageName.HOME
+                LocaleName.ENGLISH.value,
+                PageName.WORKS
         );
 
-        assertEquals(dto.getClass(), HomeDto.class);
+        assertEquals(dto.getClass(), WorksDto.class);
     }
 
     @Test
-    public void givenUpdateHomeRequest_shouldUpdateHome() {
+    public void givenUpdateWorksRequest_shouldUpdateWorks() {
         String localeName = LocaleName.ENGLISH.value;
-        PageName pageName = PageName.HOME;
+        PageName pageName = PageName.WORKS;
 
         Page current = service.getDto(
                 localeName,
                 pageName
         );
-        UpdateHomeRequest request = new UpdateHomeRequest(
+        UpdateWorksRequest request = new UpdateWorksRequest(
                 "new title",
-                "new text",
-                "new second title",
-                "new second text"
+                "new text"
         );
         Page updated = service.update(
                 localeName,

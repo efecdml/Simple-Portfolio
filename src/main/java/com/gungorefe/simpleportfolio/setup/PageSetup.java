@@ -2,8 +2,10 @@ package com.gungorefe.simpleportfolio.setup;
 
 import com.gungorefe.simpleportfolio.entity.page.Home;
 import com.gungorefe.simpleportfolio.entity.page.Locale;
+import com.gungorefe.simpleportfolio.entity.page.Works;
 import com.gungorefe.simpleportfolio.repository.page.HomeRepository;
 import com.gungorefe.simpleportfolio.repository.page.LocaleRepository;
+import com.gungorefe.simpleportfolio.repository.page.WorksRepository;
 import com.gungorefe.simpleportfolio.vo.LocaleName;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 public class PageSetup implements ApplicationListener<ContextRefreshedEvent> {
     private final LocaleRepository localeRepository;
     private final HomeRepository homeRepository;
+    private final WorksRepository worksRepository;
     private Locale localeEnglish;
     private Locale localeTurkish;
 
@@ -43,6 +46,14 @@ public class PageSetup implements ApplicationListener<ContextRefreshedEvent> {
         if (!homeRepository.existsByLocale_Name(LocaleName.TURKISH.value)) {
             log.warn("Turkish Home page not found, inserting..");
             homeRepository.save(new Home("", "", "", "", localeTurkish));
+        }
+        if (!worksRepository.existsByLocale_Name(LocaleName.ENGLISH.value)) {
+            log.warn("English Works page not found, inserting..");
+            worksRepository.save(new Works("image2.png", "", "", localeEnglish));
+        }
+        if (!worksRepository.existsByLocale_Name(LocaleName.TURKISH.value)) {
+            log.warn("Turkish Works page not found, inserting..");
+            worksRepository.save(new Works("image2.png", "", "", localeTurkish));
         }
     }
 

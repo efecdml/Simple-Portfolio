@@ -3,7 +3,8 @@ package com.gungorefe.simpleportfolio.vo;
 import java.util.List;
 
 public enum PageName {
-    HOME("home");
+    HOME("home"),
+    WORKS("works");
     public final String value;
 
     PageName(String value) {
