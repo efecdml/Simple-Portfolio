@@ -3,7 +3,8 @@ package com.gungorefe.simpleportfolio.vo;
 import java.util.List;
 
 public enum ComponentName {
-    HOME_CAROUSEL_SECTION("home carousel section");
+    HOME_CAROUSEL_SECTION("home carousel section"),
+    HOME_SIMPLE_CARD("home simple card");
     public final String value;
 
     ComponentName(String value) {

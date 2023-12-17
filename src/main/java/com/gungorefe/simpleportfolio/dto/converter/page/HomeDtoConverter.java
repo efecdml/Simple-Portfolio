@@ -1,6 +1,7 @@
 package com.gungorefe.simpleportfolio.dto.converter.page;
 
 import com.gungorefe.simpleportfolio.dto.converter.page.component.HomeCarouselSectionDtoConverter;
+import com.gungorefe.simpleportfolio.dto.converter.page.component.HomeSimpleCardDtoConverter;
 import com.gungorefe.simpleportfolio.dto.page.HomeDto;
 import com.gungorefe.simpleportfolio.dto.page.UpdateHomeRequest;
 import com.gungorefe.simpleportfolio.entity.page.Home;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HomeDtoConverter {
     private final HomeCarouselSectionDtoConverter homeCarouselSectionDtoConverter;
+    private final HomeSimpleCardDtoConverter homeSimpleCardDtoConverter;
 
     public HomeDto convertToHomeDto(Home home) {
         HomeDto dto = new HomeDto(
@@ -18,7 +20,8 @@ public class HomeDtoConverter {
                 home.getText(),
                 home.getSecondTitle(),
                 home.getSecondText(),
-                homeCarouselSectionDtoConverter.convertToHomeCarouselSectionDtoList(home.getHomeCarouselSections())
+                homeCarouselSectionDtoConverter.convertToHomeCarouselSectionDtoList(home.getHomeCarouselSections()),
+                homeSimpleCardDtoConverter.convertToHomeSimpleCardDtoList(home.getHomeSimpleCards())
         );
 
         return dto;

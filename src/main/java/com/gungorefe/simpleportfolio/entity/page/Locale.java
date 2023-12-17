@@ -1,6 +1,7 @@
 package com.gungorefe.simpleportfolio.entity.page;
 
 import com.gungorefe.simpleportfolio.entity.page.component.HomeCarouselSection;
+import com.gungorefe.simpleportfolio.entity.page.component.HomeSimpleCard;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,8 @@ public class Locale {
     private Home home;
     @OneToMany(mappedBy = "locale")
     private Collection<HomeCarouselSection> homeCarouselSections;
+    @OneToMany(mappedBy = "locale")
+    private Collection<HomeSimpleCard> homeSimpleCards;
 
     public Locale(String name) {
         this.name = name;

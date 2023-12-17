@@ -7,6 +7,7 @@ import com.gungorefe.simpleportfolio.entity.page.Home;
 import com.gungorefe.simpleportfolio.exception.ExceptionFactory;
 import com.gungorefe.simpleportfolio.repository.page.HomeRepository;
 import com.gungorefe.simpleportfolio.vo.PageName;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,14 @@ public class HomeService {
     private final HomeRepository repository;
     private final HomeDtoConverter dtoConverter;
 
+    @Transactional
     public HomeDto getDto(String localeName) {
-        Home home = repository.findWithCarouselSectionsByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory
-                .getPageNotFoundException(PageName.HOME));
+        Home home = repository.findWithCarouselSectionsByLocale_Name(localeName).orElse(null);
+        home = repository.findWithSimpleCardsByLocale_Name(localeName).orElse(null);
+
+        if (home == null) {
+            throw ExceptionFactory.getPageNotFoundException(PageName.HOME);
+        }
 
         return dtoConverter.convertToHomeDto(home);
     }

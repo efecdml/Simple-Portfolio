@@ -15,6 +15,7 @@ import java.util.Set;
 @Service
 public class ComponentService {
     private final HomeCarouselSectionService homeCarouselSectionService;
+    private final HomeSimpleCardService homeSimpleCardService;
 
     public Component create(
             ComponentName componentName,
@@ -28,6 +29,11 @@ public class ComponentService {
                     localeName,
                     (CreateHomeCarouselSectionRequest) request
             );
+            case HOME_SIMPLE_CARD -> homeSimpleCardService.create(
+                    image,
+                    localeName,
+                    (CreateHomeSimpleCardRequest) request
+            );
         };
     }
 
@@ -37,11 +43,16 @@ public class ComponentService {
     ) {
         return switch (ComponentName.get(componentName)) {
             case HOME_CAROUSEL_SECTION -> homeCarouselSectionService.getDto(id);
+            case HOME_SIMPLE_CARD -> homeSimpleCardService.getDto(id);
         };
     }
 
     public Set<HomeCarouselSectionDto> getAllHomeCarouselSectionDtos(String localeName) {
         return homeCarouselSectionService.getAllDtos(localeName);
+    }
+
+    public Set<HomeSimpleCardDto> getAllHomeSimpleCardDtos(String localeName) {
+        return homeSimpleCardService.getAllDtos(localeName);
     }
 
     public Image getImage(
@@ -51,6 +62,10 @@ public class ComponentService {
     ) {
         return switch (ComponentName.get(componentName)) {
             case HOME_CAROUSEL_SECTION -> homeCarouselSectionService.getImage(
+                    id,
+                    imageName
+            );
+            case HOME_SIMPLE_CARD -> homeSimpleCardService.getImage(
                     id,
                     imageName
             );
@@ -67,6 +82,10 @@ public class ComponentService {
                     image,
                     (UpdateHomeCarouselSectionRequest) request
             );
+            case HOME_SIMPLE_CARD -> homeSimpleCardService.update(
+                    image,
+                    (UpdateHomeSimpleCardRequest) request
+            );
         };
     }
 
@@ -76,6 +95,7 @@ public class ComponentService {
     ) {
         switch (ComponentName.get(componentName)) {
             case HOME_CAROUSEL_SECTION -> homeCarouselSectionService.delete(id);
+            case HOME_SIMPLE_CARD -> homeSimpleCardService.delete(id);
         }
     }
 }
