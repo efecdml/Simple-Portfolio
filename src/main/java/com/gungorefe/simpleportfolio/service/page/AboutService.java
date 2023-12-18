@@ -22,7 +22,7 @@ public class AboutService {
     private final AboutDtoConverter dtoConverter;
 
     public AboutDto getDto(String localeName) {
-        About about = repository.findByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory
+        About about = repository.findWithSimpleCardByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory
                 .getPageNotFoundException(PageName.ABOUT));
 
         return dtoConverter.convertToAboutDto(about);

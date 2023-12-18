@@ -5,7 +5,8 @@ import java.util.List;
 public enum ComponentName {
     HOME_CAROUSEL_SECTION("home carousel section"),
     HOME_SIMPLE_CARD("home simple card"),
-    WORKS_DETAILED_CARD("works detailed card");
+    WORKS_DETAILED_CARD("works detailed card"),
+    ABOUT_SIMPLE_CARD("about simple card");
     public final String value;
 
     ComponentName(String value) {

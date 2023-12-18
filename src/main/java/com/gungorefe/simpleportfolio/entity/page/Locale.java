@@ -1,5 +1,6 @@
 package com.gungorefe.simpleportfolio.entity.page;
 
+import com.gungorefe.simpleportfolio.entity.page.component.AboutSimpleCard;
 import com.gungorefe.simpleportfolio.entity.page.component.HomeCarouselSection;
 import com.gungorefe.simpleportfolio.entity.page.component.HomeSimpleCard;
 import com.gungorefe.simpleportfolio.entity.page.component.WorksDetailedCard;
@@ -34,6 +35,8 @@ public class Locale {
     private Collection<WorksDetailedCard> worksDetailedCards;
     @OneToOne(mappedBy = "locale")
     private About about;
+    @OneToMany(mappedBy = "locale")
+    private Collection<AboutSimpleCard> aboutSimpleCards;
 
     public Locale(String name) {
         this.name = name;
