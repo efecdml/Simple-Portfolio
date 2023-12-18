@@ -16,6 +16,7 @@ public class PageService {
     private final HomeService homeService;
     private final WorksService worksService;
     private final AboutService aboutService;
+    private final ContactService contactService;
 
     public PageDto getDto(
             String localeName,
@@ -27,6 +28,7 @@ public class PageService {
             case HOME -> homeService.getDto(localeName);
             case WORKS -> worksService.getDto(localeName);
             case ABOUT -> aboutService.getDto(localeName);
+            case CONTACT -> contactService.getDto(localeName);
         };
     }
 
@@ -36,7 +38,7 @@ public class PageService {
             String imageName
     ) {
         return switch (PageName.get(pageName)) {
-            case HOME -> null;
+            case HOME, CONTACT -> null;
             case WORKS -> worksService.getImage(
                     localeName,
                     imageName
@@ -70,6 +72,10 @@ public class PageService {
                     localeName,
                     image,
                     (UpdateAboutRequest) request
+            );
+            case CONTACT -> contactService.update(
+                    localeName,
+                    (UpdateContactRequest) request
             );
         };
     }

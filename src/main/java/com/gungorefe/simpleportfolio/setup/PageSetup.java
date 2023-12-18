@@ -1,13 +1,7 @@
 package com.gungorefe.simpleportfolio.setup;
 
-import com.gungorefe.simpleportfolio.entity.page.About;
-import com.gungorefe.simpleportfolio.entity.page.Home;
-import com.gungorefe.simpleportfolio.entity.page.Locale;
-import com.gungorefe.simpleportfolio.entity.page.Works;
-import com.gungorefe.simpleportfolio.repository.page.AboutRepository;
-import com.gungorefe.simpleportfolio.repository.page.HomeRepository;
-import com.gungorefe.simpleportfolio.repository.page.LocaleRepository;
-import com.gungorefe.simpleportfolio.repository.page.WorksRepository;
+import com.gungorefe.simpleportfolio.entity.page.*;
+import com.gungorefe.simpleportfolio.repository.page.*;
 import com.gungorefe.simpleportfolio.vo.LocaleName;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +21,7 @@ public class PageSetup implements ApplicationListener<ContextRefreshedEvent> {
     private final HomeRepository homeRepository;
     private final WorksRepository worksRepository;
     private final AboutRepository aboutRepository;
+    private final ContactRepository contactRepository;
     private Locale localeEnglish;
     private Locale localeTurkish;
 
@@ -65,6 +60,14 @@ public class PageSetup implements ApplicationListener<ContextRefreshedEvent> {
         if (!aboutRepository.existsByLocale_Name(LocaleName.TURKISH.value)) {
             log.warn("Turkish About page not found, inserting..");
             aboutRepository.save(new About("image1.jpg", "", "", localeTurkish));
+        }
+        if (!contactRepository.existsByLocale_Name(LocaleName.ENGLISH.value)) {
+            log.warn("English Contact page not found, inserting..");
+            contactRepository.save(new Contact("", "", "", "", "", "", "", localeEnglish));
+        }
+        if (!contactRepository.existsByLocale_Name(LocaleName.TURKISH.value)) {
+            log.warn("Turkish Contact page not found, inserting..");
+            contactRepository.save(new Contact("", "", "", "", "", "", "", localeTurkish));
         }
     }
 

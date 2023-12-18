@@ -37,6 +37,8 @@ public class Locale {
     private About about;
     @OneToMany(mappedBy = "locale")
     private Collection<AboutSimpleCard> aboutSimpleCards;
+    @OneToOne(mappedBy = "locale")
+    private Contact contact;
 
     public Locale(String name) {
         this.name = name;

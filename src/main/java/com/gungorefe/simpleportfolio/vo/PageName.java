@@ -5,7 +5,8 @@ import java.util.List;
 public enum PageName {
     HOME("home"),
     WORKS("works"),
-    ABOUT("about");
+    ABOUT("about"),
+    CONTACT("contact");
     public final String value;
 
     PageName(String value) {
