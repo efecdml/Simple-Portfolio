@@ -1,8 +1,10 @@
 package com.gungorefe.simpleportfolio.setup;
 
+import com.gungorefe.simpleportfolio.entity.page.About;
 import com.gungorefe.simpleportfolio.entity.page.Home;
 import com.gungorefe.simpleportfolio.entity.page.Locale;
 import com.gungorefe.simpleportfolio.entity.page.Works;
+import com.gungorefe.simpleportfolio.repository.page.AboutRepository;
 import com.gungorefe.simpleportfolio.repository.page.HomeRepository;
 import com.gungorefe.simpleportfolio.repository.page.LocaleRepository;
 import com.gungorefe.simpleportfolio.repository.page.WorksRepository;
@@ -24,6 +26,7 @@ public class PageSetup implements ApplicationListener<ContextRefreshedEvent> {
     private final LocaleRepository localeRepository;
     private final HomeRepository homeRepository;
     private final WorksRepository worksRepository;
+    private final AboutRepository aboutRepository;
     private Locale localeEnglish;
     private Locale localeTurkish;
 
@@ -54,6 +57,14 @@ public class PageSetup implements ApplicationListener<ContextRefreshedEvent> {
         if (!worksRepository.existsByLocale_Name(LocaleName.TURKISH.value)) {
             log.warn("Turkish Works page not found, inserting..");
             worksRepository.save(new Works("image2.png", "", "", localeTurkish));
+        }
+        if (!aboutRepository.existsByLocale_Name(LocaleName.ENGLISH.value)) {
+            log.warn("English About page not found, inserting..");
+            aboutRepository.save(new About("image1.jpg", "", "", localeEnglish));
+        }
+        if (!aboutRepository.existsByLocale_Name(LocaleName.TURKISH.value)) {
+            log.warn("Turkish About page not found, inserting..");
+            aboutRepository.save(new About("image1.jpg", "", "", localeTurkish));
         }
     }
 

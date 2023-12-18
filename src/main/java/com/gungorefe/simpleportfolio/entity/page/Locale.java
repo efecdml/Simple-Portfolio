@@ -32,6 +32,8 @@ public class Locale {
     private Works works;
     @OneToMany(mappedBy = "locale")
     private Collection<WorksDetailedCard> worksDetailedCards;
+    @OneToOne(mappedBy = "locale")
+    private About about;
 
     public Locale(String name) {
         this.name = name;

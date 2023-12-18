@@ -1,10 +1,7 @@
 package com.gungorefe.simpleportfolio.service.page;
 
 import com.gungorefe.simpleportfolio.dto.Image;
-import com.gungorefe.simpleportfolio.dto.page.PageDto;
-import com.gungorefe.simpleportfolio.dto.page.UpdateHomeRequest;
-import com.gungorefe.simpleportfolio.dto.page.UpdatePageRequest;
-import com.gungorefe.simpleportfolio.dto.page.UpdateWorksRequest;
+import com.gungorefe.simpleportfolio.dto.page.*;
 import com.gungorefe.simpleportfolio.entity.page.Page;
 import com.gungorefe.simpleportfolio.vo.LocaleName;
 import com.gungorefe.simpleportfolio.vo.PageName;
@@ -18,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class PageService {
     private final HomeService homeService;
     private final WorksService worksService;
+    private final AboutService aboutService;
 
     public PageDto getDto(
             String localeName,
@@ -28,6 +26,7 @@ public class PageService {
         return switch (PageName.get(pageName)) {
             case HOME -> homeService.getDto(localeName);
             case WORKS -> worksService.getDto(localeName);
+            case ABOUT -> aboutService.getDto(localeName);
         };
     }
 
@@ -39,6 +38,10 @@ public class PageService {
         return switch (PageName.get(pageName)) {
             case HOME -> null;
             case WORKS -> worksService.getImage(
+                    localeName,
+                    imageName
+            );
+            case ABOUT -> aboutService.getImage(
                     localeName,
                     imageName
             );
@@ -62,6 +65,11 @@ public class PageService {
                     localeName,
                     image,
                     (UpdateWorksRequest) request
+            );
+            case ABOUT -> aboutService.update(
+                    localeName,
+                    image,
+                    (UpdateAboutRequest) request
             );
         };
     }
