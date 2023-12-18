@@ -1,9 +1,6 @@
 package com.gungorefe.simpleportfolio.entity.page;
 
-import com.gungorefe.simpleportfolio.entity.page.component.AboutSimpleCard;
-import com.gungorefe.simpleportfolio.entity.page.component.HomeCarouselSection;
-import com.gungorefe.simpleportfolio.entity.page.component.HomeSimpleCard;
-import com.gungorefe.simpleportfolio.entity.page.component.WorksDetailedCard;
+import com.gungorefe.simpleportfolio.entity.page.component.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +36,8 @@ public class Locale {
     private Collection<AboutSimpleCard> aboutSimpleCards;
     @OneToOne(mappedBy = "locale")
     private Contact contact;
+    @OneToMany(mappedBy = "locale")
+    private Collection<ContactSimpleCard> contactSimpleCards;
 
     public Locale(String name) {
         this.name = name;

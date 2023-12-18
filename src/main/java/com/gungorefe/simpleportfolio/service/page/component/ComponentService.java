@@ -18,6 +18,7 @@ public class ComponentService {
     private final HomeSimpleCardService homeSimpleCardService;
     private final WorksDetailedCardService worksDetailedCardService;
     private final AboutSimpleCardService aboutSimpleCardService;
+    private final ContactSimpleCardService contactSimpleCardService;
 
     public Component create(
             ComponentName componentName,
@@ -46,6 +47,11 @@ public class ComponentService {
                     localeName,
                     (CreateAboutSimpleCardRequest) request
             );
+            case CONTACT_SIMPLE_CARD -> contactSimpleCardService.create(
+                    image,
+                    localeName,
+                    (CreateContactSimpleCardRequest) request
+            );
         };
     }
 
@@ -58,6 +64,7 @@ public class ComponentService {
             case HOME_SIMPLE_CARD -> homeSimpleCardService.getDto(id);
             case WORKS_DETAILED_CARD -> worksDetailedCardService.getDto(id);
             case ABOUT_SIMPLE_CARD -> aboutSimpleCardService.getDto(id);
+            case CONTACT_SIMPLE_CARD -> contactSimpleCardService.getDto(id);
         };
     }
 
@@ -75,6 +82,10 @@ public class ComponentService {
 
     public Set<AboutSimpleCardDto> getAllAboutSimpleCardDtos(String localeName) {
         return aboutSimpleCardService.getAllDtos(localeName);
+    }
+
+    public Set<ContactSimpleCardDto> getAllContactSimpleCardDtos(String localeName) {
+        return contactSimpleCardService.getAllDtos(localeName);
     }
 
     public Image getImage(
@@ -96,6 +107,10 @@ public class ComponentService {
                     imageName
             );
             case ABOUT_SIMPLE_CARD -> aboutSimpleCardService.getImage(
+                    id,
+                    imageName
+            );
+            case CONTACT_SIMPLE_CARD -> contactSimpleCardService.getImage(
                     id,
                     imageName
             );
@@ -124,6 +139,10 @@ public class ComponentService {
                     image,
                     (UpdateAboutSimpleCardRequest) request
             );
+            case CONTACT_SIMPLE_CARD -> contactSimpleCardService.update(
+                    image,
+                    (UpdateContactSimpleCardRequest) request
+            );
         };
     }
 
@@ -136,6 +155,7 @@ public class ComponentService {
             case HOME_SIMPLE_CARD -> homeSimpleCardService.delete(id);
             case WORKS_DETAILED_CARD -> worksDetailedCardService.delete(id);
             case ABOUT_SIMPLE_CARD -> aboutSimpleCardService.delete(id);
+            case CONTACT_SIMPLE_CARD -> contactSimpleCardService.delete(id);
         }
     }
 }

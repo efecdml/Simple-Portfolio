@@ -17,7 +17,7 @@ public class ContactService {
     private final ContactDtoConverter dtoConverter;
 
     public ContactDto getDto(String localeName) {
-        Contact contact = repository.findByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory
+        Contact contact = repository.findWithSimpleCardByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory
                 .getPageNotFoundException(PageName.CONTACT));
 
         return dtoConverter.convertToContactDto(contact);

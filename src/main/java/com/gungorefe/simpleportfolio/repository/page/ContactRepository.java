@@ -9,7 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Integer> {
-    Optional<Contact> findByLocale_Name(String localeName);
+    @Query("select c from Contact c left join fetch c.contactSimpleCards where c.locale.name = ?1")
+    Optional<Contact> findWithSimpleCardByLocale_Name(String localeName);
 
     @Query("select new com.gungorefe.simpleportfolio.entity.page.Contact(c.id, c.locale.id) from Contact c " +
             "where c.locale.name = ?1")
