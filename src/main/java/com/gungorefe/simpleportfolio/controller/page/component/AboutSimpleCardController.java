@@ -5,6 +5,7 @@ import com.gungorefe.simpleportfolio.dto.page.component.AboutSimpleCardDto;
 import com.gungorefe.simpleportfolio.dto.page.component.CreateAboutSimpleCardRequest;
 import com.gungorefe.simpleportfolio.dto.page.component.UpdateAboutSimpleCardRequest;
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
+import com.gungorefe.simpleportfolio.util.WebUtils;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -38,10 +39,12 @@ public class AboutSimpleCardController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<AboutSimpleCardDto> getDto(@PathVariable int id) {
-        return ResponseEntity.ok((AboutSimpleCardDto) service.getDto(
+        AboutSimpleCardDto dto = (AboutSimpleCardDto) service.getDto(
                 ComponentName.ABOUT_SIMPLE_CARD,
                 id
-        ));
+        );
+
+        return WebUtils.getResponseEntityForCachingDto(dto);
     }
 
     @GetMapping("/competent/competent/locale/{localeName}/all")
@@ -60,9 +63,7 @@ public class AboutSimpleCardController {
                 imageName
         );
 
-        return ResponseEntity.ok()
-                .contentType(image.mimeType())
-                .body(image.bytes());
+        return WebUtils.getResponseEntityForCachingImage(image);
     }
 
     @PutMapping(

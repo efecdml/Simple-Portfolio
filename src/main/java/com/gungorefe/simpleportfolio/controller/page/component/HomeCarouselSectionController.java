@@ -5,6 +5,7 @@ import com.gungorefe.simpleportfolio.dto.page.component.CreateHomeCarouselSectio
 import com.gungorefe.simpleportfolio.dto.page.component.HomeCarouselSectionDto;
 import com.gungorefe.simpleportfolio.dto.page.component.UpdateHomeCarouselSectionRequest;
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
+import com.gungorefe.simpleportfolio.util.WebUtils;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -41,10 +42,12 @@ public class HomeCarouselSectionController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<HomeCarouselSectionDto> getDto(@PathVariable int id) {
-        return ResponseEntity.ok((HomeCarouselSectionDto) service.getDto(
+        HomeCarouselSectionDto dto = (HomeCarouselSectionDto) service.getDto(
                 ComponentName.HOME_CAROUSEL_SECTION,
                 id
-        ));
+        );
+
+        return WebUtils.getResponseEntityForCachingDto(dto);
     }
 
     @GetMapping("/competent/locale/{localeName}/all")
@@ -63,9 +66,7 @@ public class HomeCarouselSectionController {
                 imageName
         );
 
-        return ResponseEntity.ok()
-                .contentType(image.mimeType())
-                .body(image.bytes());
+        return WebUtils.getResponseEntityForCachingImage(image);
     }
 
     @PutMapping(

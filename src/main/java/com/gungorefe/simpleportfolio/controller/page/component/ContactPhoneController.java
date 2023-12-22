@@ -4,6 +4,7 @@ import com.gungorefe.simpleportfolio.dto.page.component.ContactPhoneDto;
 import com.gungorefe.simpleportfolio.dto.page.component.CreateContactPhoneRequest;
 import com.gungorefe.simpleportfolio.dto.page.component.UpdateContactPhoneRequest;
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
+import com.gungorefe.simpleportfolio.util.WebUtils;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +35,12 @@ public class ContactPhoneController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<ContactPhoneDto> getDto(@PathVariable int id) {
-        return ResponseEntity.ok((ContactPhoneDto) service.getDto(
+        ContactPhoneDto dto = (ContactPhoneDto) service.getDto(
                 ComponentName.CONTACT_PHONE,
                 id
-        ));
+        );
+
+        return WebUtils.getResponseEntityForCachingDto(dto);
     }
 
     @GetMapping("/competent/locale/{localeName}/all")

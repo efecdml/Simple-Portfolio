@@ -3,6 +3,7 @@ package com.gungorefe.simpleportfolio.controller.page;
 import com.gungorefe.simpleportfolio.dto.page.ContactDto;
 import com.gungorefe.simpleportfolio.dto.page.UpdateContactRequest;
 import com.gungorefe.simpleportfolio.service.page.PageService;
+import com.gungorefe.simpleportfolio.util.WebUtils;
 import com.gungorefe.simpleportfolio.vo.PageName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ public class ContactController {
 
     @GetMapping("/locale/{localeName}")
     public ResponseEntity<ContactDto> getDto(@PathVariable String localeName) {
-        return ResponseEntity.ok((ContactDto) service.getDto(
+        ContactDto dto = (ContactDto) service.getDto(
                 localeName,
                 PageName.CONTACT
-        ));
+        );
+
+        return WebUtils.getResponseEntityForCachingDto(dto);
     }
 
     @PutMapping("/competent/locale/{localeName}")

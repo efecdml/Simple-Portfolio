@@ -1,9 +1,12 @@
 package com.gungorefe.simpleportfolio.util;
 
+import com.gungorefe.simpleportfolio.dto.Image;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -56,5 +59,20 @@ public class WebUtils {
                 "",
                 Duration.ZERO
         );
+    }
+
+    public static <T> ResponseEntity<T> getResponseEntityForCachingDto(T body) {
+        return ResponseEntity.ok()
+                .eTag(String.valueOf(body.hashCode()))
+                .cacheControl(CacheControl.maxAge(Duration.ZERO))
+                .body(body);
+    }
+
+    public static ResponseEntity<byte[]> getResponseEntityForCachingImage(Image image) {
+        return ResponseEntity.ok()
+                .eTag(image.name())
+                .cacheControl(CacheControl.maxAge(Duration.ZERO))
+                .contentType(image.mimeType())
+                .body(image.bytes());
     }
 }

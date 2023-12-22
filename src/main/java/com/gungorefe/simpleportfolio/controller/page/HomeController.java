@@ -3,6 +3,7 @@ package com.gungorefe.simpleportfolio.controller.page;
 import com.gungorefe.simpleportfolio.dto.page.HomeDto;
 import com.gungorefe.simpleportfolio.dto.page.UpdateHomeRequest;
 import com.gungorefe.simpleportfolio.service.page.PageService;
+import com.gungorefe.simpleportfolio.util.WebUtils;
 import com.gungorefe.simpleportfolio.vo.PageName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ public class HomeController {
 
     @GetMapping("/locale/{localeName}")
     public ResponseEntity<HomeDto> getDto(@PathVariable String localeName) {
-        return ResponseEntity.ok((HomeDto) service.getDto(
+        HomeDto dto = (HomeDto) service.getDto(
                 localeName,
                 PageName.HOME
-        ));
+        );
+
+        return WebUtils.getResponseEntityForCachingDto(dto);
     }
 
     @PutMapping("/competent/locale/{localeName}")

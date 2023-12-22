@@ -4,6 +4,7 @@ import com.gungorefe.simpleportfolio.dto.Image;
 import com.gungorefe.simpleportfolio.dto.page.UpdateWorksRequest;
 import com.gungorefe.simpleportfolio.dto.page.WorksDto;
 import com.gungorefe.simpleportfolio.service.page.PageService;
+import com.gungorefe.simpleportfolio.util.WebUtils;
 import com.gungorefe.simpleportfolio.vo.PageName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -19,10 +20,12 @@ public class WorksController {
 
     @GetMapping("/locale/{localeName}")
     public ResponseEntity<WorksDto> getDto(@PathVariable String localeName) {
-        return ResponseEntity.ok((WorksDto) service.getDto(
+        WorksDto dto = (WorksDto) service.getDto(
                 localeName,
                 PageName.WORKS
-        ));
+        );
+
+        return WebUtils.getResponseEntityForCachingDto(dto);
     }
 
     @GetMapping(value = "/locale/{localeName}/image/{imageName}")
@@ -36,9 +39,7 @@ public class WorksController {
                 imageName
         );
 
-        return ResponseEntity.ok()
-                .contentType(image.mimeType())
-                .body(image.bytes());
+        return WebUtils.getResponseEntityForCachingImage(image);
     }
 
     @PutMapping(

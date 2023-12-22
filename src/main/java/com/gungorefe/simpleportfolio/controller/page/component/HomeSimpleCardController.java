@@ -5,6 +5,7 @@ import com.gungorefe.simpleportfolio.dto.page.component.CreateHomeSimpleCardRequ
 import com.gungorefe.simpleportfolio.dto.page.component.HomeSimpleCardDto;
 import com.gungorefe.simpleportfolio.dto.page.component.UpdateHomeSimpleCardRequest;
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
+import com.gungorefe.simpleportfolio.util.WebUtils;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -41,10 +42,12 @@ public class HomeSimpleCardController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<HomeSimpleCardDto> getDto(@PathVariable int id) {
-        return ResponseEntity.ok((HomeSimpleCardDto) service.getDto(
+        HomeSimpleCardDto dto = (HomeSimpleCardDto) service.getDto(
                 ComponentName.HOME_SIMPLE_CARD,
                 id
-        ));
+        );
+
+        return WebUtils.getResponseEntityForCachingDto(dto);
     }
 
     @GetMapping("/competent/locale/{localeName}/all")
@@ -63,9 +66,7 @@ public class HomeSimpleCardController {
                 imageName
         );
 
-        return ResponseEntity.ok()
-                .contentType(image.mimeType())
-                .body(image.bytes());
+        return WebUtils.getResponseEntityForCachingImage(image);
 
     }
 

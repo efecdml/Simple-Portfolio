@@ -68,7 +68,8 @@ public class ImageService {
         return newName;
     }
 
-    /* Gets bytes and MIME type of the file with given name. Creates Image dto with these variables and returns it. */
+    /* Gets bytes, name and MIME type of the file with given name. Creates Image dto with these variables and returns
+    it. */
     @SneakyThrows
     public Image get(String name) {
         File imageFile = new File(getPath(name));
@@ -85,6 +86,7 @@ public class ImageService {
         mimeType = getMimeType(bytes);
 
         Image image = new Image(
+                imageFile.getName(),
                 mimeType,
                 bytes
         );
