@@ -27,7 +27,10 @@ public class SecurityFilterConfig {
             "/api/pages/page/about/competent/**",
             "/api/pages/page/contact/competent/**",
             "/api/pages/page/home/competent/**",
-            "/api/pages/page/works/competent/**"
+            "/api/pages/page/works/competent/**",
+            "/api/session/check",
+            "/api/users/**",
+            "/open-docs"
     };
 
     @Bean

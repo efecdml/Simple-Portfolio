@@ -7,6 +7,13 @@ import com.gungorefe.simpleportfolio.exception.image.UnacceptableImageNameExcept
 import com.gungorefe.simpleportfolio.exception.page.ComponentNotFoundException;
 import com.gungorefe.simpleportfolio.exception.page.InvalidLocaleException;
 import com.gungorefe.simpleportfolio.exception.page.PageNotFoundException;
+import com.gungorefe.simpleportfolio.exception.security.BruteForceAuthenticationAttemptException;
+import com.gungorefe.simpleportfolio.exception.security.RoleNotFoundException;
+import com.gungorefe.simpleportfolio.exception.security.UnauthorizedException;
+import com.gungorefe.simpleportfolio.exception.session.ExpiredPasswordRecoveryTokenException;
+import com.gungorefe.simpleportfolio.exception.session.InvalidPasswordRecoveryTokenException;
+import com.gungorefe.simpleportfolio.exception.session.PasswordRecoveryEmailAlreadySentException;
+import com.gungorefe.simpleportfolio.exception.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -76,6 +83,94 @@ public class GeneralExceptionHandler {
         return new ResponseEntity<>(
                 exception.getMessage(),
                 HttpStatus.FORBIDDEN
+        );
+    }
+
+    @ExceptionHandler(BruteForceAuthenticationAttemptException.class)
+    public ResponseEntity<?> bruteForceAuthenticationAttemptException(BruteForceAuthenticationAttemptException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.FORBIDDEN
+        );
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> userNotFoundException(UserNotFoundException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<?> roleNotFoundException(RoleNotFoundException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(UnacceptableEmailException.class)
+    public ResponseEntity<?> unacceptableEmailException(UnacceptableEmailException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.NOT_ACCEPTABLE
+        );
+    }
+
+    @ExceptionHandler(PasswordsDoNotMatchException.class)
+    public ResponseEntity<?> passwordsDoNotMatchException(PasswordsDoNotMatchException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.NOT_ACCEPTABLE
+        );
+    }
+
+    @ExceptionHandler(UnacceptablePasswordException.class)
+    public ResponseEntity<?> unacceptablePasswordException(UnacceptablePasswordException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.NOT_ACCEPTABLE
+        );
+    }
+
+    @ExceptionHandler(EmailAlreadyInUseException.class)
+    public ResponseEntity<?> emailAlreadyInUseException(EmailAlreadyInUseException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.NOT_ACCEPTABLE
+        );
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<?> unauthorizedException(UnauthorizedException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.UNAUTHORIZED
+        );
+    }
+
+    @ExceptionHandler(PasswordRecoveryEmailAlreadySentException.class)
+    public ResponseEntity<?> passwordRecoveryEmailAlreadySentException(PasswordRecoveryEmailAlreadySentException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(InvalidPasswordRecoveryTokenException.class)
+    public ResponseEntity<?> invalidPasswordRecoveryTokenException(InvalidPasswordRecoveryTokenException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(ExpiredPasswordRecoveryTokenException.class)
+    public ResponseEntity<?> expiredPasswordRecoveryTokenException(ExpiredPasswordRecoveryTokenException exception) {
+        return new ResponseEntity<>(
+                exception.getMessage(),
+                HttpStatus.NOT_ACCEPTABLE
         );
     }
 }

@@ -24,11 +24,29 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     private String password;
+    @OneToOne(mappedBy = "user")
+    private PasswordRecoveryToken passwordRecoveryToken;
     @JoinColumn(name = "role_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 
+    public User(String id) {
+        this.id = id;
+    }
+
+    public User(String email, String roleName) {
+        this.email = email;
+        this.role = new Role(roleName);
+    }
+
     public User(String email, String password, Role role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User(String id, String email, String password, Role role) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
