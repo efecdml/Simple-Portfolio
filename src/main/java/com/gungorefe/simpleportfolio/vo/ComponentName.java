@@ -7,7 +7,8 @@ public enum ComponentName {
     HOME_SIMPLE_CARD("home simple card"),
     WORKS_DETAILED_CARD("works detailed card"),
     ABOUT_SIMPLE_CARD("about simple card"),
-    CONTACT_SIMPLE_CARD("contact simple card");
+    CONTACT_SIMPLE_CARD("contact simple card"),
+    CONTACT_PHONE("contact phone");
     public final String value;
 
     ComponentName(String value) {

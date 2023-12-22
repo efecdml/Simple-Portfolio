@@ -1,5 +1,6 @@
 package com.gungorefe.simpleportfolio.entity.page;
 
+import com.gungorefe.simpleportfolio.entity.page.component.ContactPhone;
 import com.gungorefe.simpleportfolio.entity.page.component.ContactSimpleCard;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,8 @@ public class Contact implements Page {
     private String googleMapsCoordination;
     @OneToMany(mappedBy = "contact")
     private Collection<ContactSimpleCard> contactSimpleCards;
+    @OneToMany(mappedBy = "contact")
+    private Collection<ContactPhone> contactPhones;
     @JoinColumn(name = "locale_id")
     @OneToOne(fetch = FetchType.LAZY)
     private Locale locale;

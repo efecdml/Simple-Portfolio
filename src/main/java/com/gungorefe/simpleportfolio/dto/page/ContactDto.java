@@ -1,5 +1,6 @@
 package com.gungorefe.simpleportfolio.dto.page;
 
+import com.gungorefe.simpleportfolio.dto.page.component.ContactPhoneDto;
 import com.gungorefe.simpleportfolio.dto.page.component.ContactSimpleCardDto;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public record ContactDto(
         String workingDays,
         String workingHours,
         String googleMapsCoordination,
-        List<ContactSimpleCardDto> simpleCards
+        List<ContactSimpleCardDto> simpleCards,
+        List<ContactPhoneDto> phones
 ) implements PageDto {
 }

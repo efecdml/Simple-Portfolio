@@ -7,6 +7,7 @@ import com.gungorefe.simpleportfolio.entity.page.Contact;
 import com.gungorefe.simpleportfolio.exception.ExceptionFactory;
 import com.gungorefe.simpleportfolio.repository.page.ContactRepository;
 import com.gungorefe.simpleportfolio.vo.PageName;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,14 @@ public class ContactService {
     private final ContactRepository repository;
     private final ContactDtoConverter dtoConverter;
 
+    @Transactional
     public ContactDto getDto(String localeName) {
-        Contact contact = repository.findWithSimpleCardByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory
-                .getPageNotFoundException(PageName.CONTACT));
+        Contact contact = repository.findWithSimpleCardByLocale_Name(localeName).orElse(null);
+        contact = repository.findWithPhonesByLocale_Name(localeName).orElse(null);
+
+        if (contact == null) {
+            throw ExceptionFactory.getPageNotFoundException(PageName.CONTACT);
+        }
 
         return dtoConverter.convertToContactDto(contact);
     }

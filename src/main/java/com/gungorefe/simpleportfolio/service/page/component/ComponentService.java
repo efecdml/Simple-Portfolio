@@ -19,6 +19,7 @@ public class ComponentService {
     private final WorksDetailedCardService worksDetailedCardService;
     private final AboutSimpleCardService aboutSimpleCardService;
     private final ContactSimpleCardService contactSimpleCardService;
+    private final ContactPhoneService contactPhoneService;
 
     public Component create(
             ComponentName componentName,
@@ -52,6 +53,10 @@ public class ComponentService {
                     localeName,
                     (CreateContactSimpleCardRequest) request
             );
+            case CONTACT_PHONE -> contactPhoneService.create(
+                    localeName,
+                    (CreateContactPhoneRequest) request
+            );
         };
     }
 
@@ -65,6 +70,7 @@ public class ComponentService {
             case WORKS_DETAILED_CARD -> worksDetailedCardService.getDto(id);
             case ABOUT_SIMPLE_CARD -> aboutSimpleCardService.getDto(id);
             case CONTACT_SIMPLE_CARD -> contactSimpleCardService.getDto(id);
+            case CONTACT_PHONE -> contactPhoneService.getDto(id);
         };
     }
 
@@ -86,6 +92,10 @@ public class ComponentService {
 
     public Set<ContactSimpleCardDto> getAllContactSimpleCardDtos(String localeName) {
         return contactSimpleCardService.getAllDtos(localeName);
+    }
+
+    public Set<ContactPhoneDto> getAllContactPhoneDtos(String localeName) {
+        return contactPhoneService.getAllDtos(localeName);
     }
 
     public Image getImage(
@@ -114,6 +124,7 @@ public class ComponentService {
                     id,
                     imageName
             );
+            case CONTACT_PHONE -> null;
         };
     }
 
@@ -143,6 +154,7 @@ public class ComponentService {
                     image,
                     (UpdateContactSimpleCardRequest) request
             );
+            case CONTACT_PHONE -> contactPhoneService.update((UpdateContactPhoneRequest) request);
         };
     }
 
@@ -156,6 +168,7 @@ public class ComponentService {
             case WORKS_DETAILED_CARD -> worksDetailedCardService.delete(id);
             case ABOUT_SIMPLE_CARD -> aboutSimpleCardService.delete(id);
             case CONTACT_SIMPLE_CARD -> contactSimpleCardService.delete(id);
+            case CONTACT_PHONE -> contactPhoneService.delete(id);
         }
     }
 }

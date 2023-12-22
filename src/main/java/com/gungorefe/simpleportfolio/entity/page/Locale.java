@@ -38,6 +38,8 @@ public class Locale {
     private Contact contact;
     @OneToMany(mappedBy = "locale")
     private Collection<ContactSimpleCard> contactSimpleCards;
+    @OneToMany(mappedBy = "locale")
+    private Collection<ContactPhone> contactPhones;
 
     public Locale(String name) {
         this.name = name;

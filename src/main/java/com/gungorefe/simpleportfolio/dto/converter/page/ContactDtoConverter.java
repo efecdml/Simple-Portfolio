@@ -1,5 +1,6 @@
 package com.gungorefe.simpleportfolio.dto.converter.page;
 
+import com.gungorefe.simpleportfolio.dto.converter.page.component.ContactPhoneDtoConverter;
 import com.gungorefe.simpleportfolio.dto.converter.page.component.ContactSimpleCardDtoConverter;
 import com.gungorefe.simpleportfolio.dto.page.ContactDto;
 import com.gungorefe.simpleportfolio.dto.page.UpdateContactRequest;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContactDtoConverter {
     private final ContactSimpleCardDtoConverter contactSimpleCardDtoConverter;
+    private final ContactPhoneDtoConverter contactPhoneDtoConverter;
 
     public ContactDto convertToContactDto(Contact contact) {
         ContactDto dto = new ContactDto(
@@ -21,7 +23,8 @@ public class ContactDtoConverter {
                 contact.getWorkingDays(),
                 contact.getWorkingHours(),
                 contact.getGoogleMapsCoordination(),
-                contactSimpleCardDtoConverter.convertToContactSimpleCardDtoList(contact.getContactSimpleCards())
+                contactSimpleCardDtoConverter.convertToContactSimpleCardDtoList(contact.getContactSimpleCards()),
+                contactPhoneDtoConverter.convertToContactPhoneDtoList(contact.getContactPhones())
         );
 
         return dto;
