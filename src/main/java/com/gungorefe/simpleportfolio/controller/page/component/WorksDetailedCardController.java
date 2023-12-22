@@ -21,7 +21,7 @@ public class WorksDetailedCardController {
     private final ComponentService service;
 
     @PostMapping(
-            value = "/locale/{localeName}",
+            value = "/competent/locale/{localeName}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity<Void> create(
@@ -47,7 +47,7 @@ public class WorksDetailedCardController {
         ));
     }
 
-    @GetMapping("/locale/{localeName}/all")
+    @GetMapping("/competent/locale/{localeName}/all")
     public ResponseEntity<Set<WorksDetailedCardDto>> getAllDtos(@PathVariable String localeName) {
         return ResponseEntity.ok(service.getAllWorksDetailedCardDtos(localeName));
     }
@@ -69,7 +69,10 @@ public class WorksDetailedCardController {
 
     }
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(
+            value = "/competent",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<Void> update(
             @RequestPart UpdateWorksDetailedCardRequest request,
             @RequestPart(required = false) MultipartFile image
@@ -83,7 +86,7 @@ public class WorksDetailedCardController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/competent/id/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         service.delete(
                 ComponentName.WORKS_DETAILED_CARD,

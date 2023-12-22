@@ -21,7 +21,7 @@ public class ContactSimpleCardController {
     private final ComponentService service;
 
     @PostMapping(
-            value = "/locale/{localeName}",
+            value = "/competent/locale/{localeName}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity<Void> create(
@@ -47,7 +47,7 @@ public class ContactSimpleCardController {
         ));
     }
 
-    @GetMapping("/locale/{localeName}/all")
+    @GetMapping("/competent/locale/{localeName}/all")
     public ResponseEntity<Set<ContactSimpleCardDto>> getAllDtos(@PathVariable String localeName) {
         return ResponseEntity.ok(service.getAllContactSimpleCardDtos(localeName));
     }
@@ -69,7 +69,10 @@ public class ContactSimpleCardController {
 
     }
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(
+            value = "/competent",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<Void> update(
             @RequestPart UpdateContactSimpleCardRequest request,
             @RequestPart(required = false) MultipartFile image
@@ -83,7 +86,7 @@ public class ContactSimpleCardController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/competent/id/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         service.delete(
                 ComponentName.CONTACT_SIMPLE_CARD,

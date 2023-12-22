@@ -17,7 +17,7 @@ import java.util.Set;
 public class ContactPhoneController {
     private final ComponentService service;
 
-    @PostMapping("/locale/{localeName}")
+    @PostMapping("/competent/locale/{localeName}")
     public ResponseEntity<Void> create(
             @PathVariable String localeName,
             @RequestBody CreateContactPhoneRequest request
@@ -40,12 +40,12 @@ public class ContactPhoneController {
         ));
     }
 
-    @GetMapping("/locale/{localeName}/all")
+    @GetMapping("/competent/locale/{localeName}/all")
     public ResponseEntity<Set<ContactPhoneDto>> getAllDtos(@PathVariable String localeName) {
         return ResponseEntity.ok(service.getAllContactPhoneDtos(localeName));
     }
 
-    @PutMapping
+    @PutMapping("/competent")
     public ResponseEntity<Void> update(@RequestBody UpdateContactPhoneRequest request) {
         service.update(
                 ComponentName.CONTACT_PHONE,
@@ -56,7 +56,7 @@ public class ContactPhoneController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/competent/id/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         service.delete(
                 ComponentName.CONTACT_PHONE,

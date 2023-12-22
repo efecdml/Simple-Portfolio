@@ -21,7 +21,7 @@ public class HomeCarouselSectionController {
     private final ComponentService service;
 
     @PostMapping(
-            value = "/locale/{localeName}",
+            value = "/competent/locale/{localeName}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity<Void> create(
@@ -47,7 +47,7 @@ public class HomeCarouselSectionController {
         ));
     }
 
-    @GetMapping("/locale/{localeName}/all")
+    @GetMapping("/competent/locale/{localeName}/all")
     public ResponseEntity<Set<HomeCarouselSectionDto>> getAllDtos(@PathVariable String localeName) {
         return ResponseEntity.ok(service.getAllHomeCarouselSectionDtos(localeName));
     }
@@ -68,7 +68,10 @@ public class HomeCarouselSectionController {
                 .body(image.bytes());
     }
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(
+            value = "/competent",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<Void> update(
             @RequestPart UpdateHomeCarouselSectionRequest request,
             @RequestPart(required = false) MultipartFile image
@@ -82,7 +85,7 @@ public class HomeCarouselSectionController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/competent/id/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         service.delete(
                 ComponentName.HOME_CAROUSEL_SECTION,

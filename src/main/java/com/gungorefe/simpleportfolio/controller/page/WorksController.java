@@ -42,7 +42,7 @@ public class WorksController {
     }
 
     @PutMapping(
-            value = "/locale/{localeName}",
+            value = "/competent/locale/{localeName}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity<Void> update(

@@ -22,7 +22,7 @@ public class ContactController {
         ));
     }
 
-    @PutMapping("/locale/{localeName}")
+    @PutMapping("/competent/locale/{localeName}")
     public ResponseEntity<Void> update(
             @PathVariable String localeName,
             @RequestBody UpdateContactRequest request

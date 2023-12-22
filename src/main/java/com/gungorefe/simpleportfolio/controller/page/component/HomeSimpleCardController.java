@@ -21,7 +21,7 @@ public class HomeSimpleCardController {
     private final ComponentService service;
 
     @PostMapping(
-            value = "/locale/{localeName}",
+            value = "/competent/locale/{localeName}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity<Void> create(
@@ -47,7 +47,7 @@ public class HomeSimpleCardController {
         ));
     }
 
-    @GetMapping("/locale/{localeName}/all")
+    @GetMapping("/competent/locale/{localeName}/all")
     public ResponseEntity<Set<HomeSimpleCardDto>> getAllDtos(@PathVariable String localeName) {
         return ResponseEntity.ok(service.getAllHomeSimpleCardDtos(localeName));
     }
@@ -69,7 +69,10 @@ public class HomeSimpleCardController {
 
     }
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(
+            value = "/competent",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<Void> update(
             @RequestPart UpdateHomeSimpleCardRequest request,
             @RequestPart(required = false) MultipartFile image
@@ -83,7 +86,7 @@ public class HomeSimpleCardController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/competent/id/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         service.delete(
                 ComponentName.HOME_SIMPLE_CARD,

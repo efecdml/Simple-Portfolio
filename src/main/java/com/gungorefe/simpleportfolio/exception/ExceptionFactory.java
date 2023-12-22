@@ -9,6 +9,7 @@ import com.gungorefe.simpleportfolio.exception.page.InvalidLocaleException;
 import com.gungorefe.simpleportfolio.exception.page.PageNotFoundException;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
 import com.gungorefe.simpleportfolio.vo.PageName;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import java.text.MessageFormat;
 
@@ -46,5 +47,9 @@ public class ExceptionFactory {
 
     public static ImageNotFoundException getImageNotFoundException(String imageName) {
         return new ImageNotFoundException("Image not found: " + imageName);
+    }
+
+    public static BadCredentialsException getBadCredentialsException() {
+        return new BadCredentialsException("Bad credentials");
     }
 }
