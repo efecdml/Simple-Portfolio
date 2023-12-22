@@ -9,17 +9,17 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface HomeCarouselSectionRepository extends JpaRepository<HomeCarouselSection,Integer> {
+public interface HomeCarouselSectionRepository extends JpaRepository<HomeCarouselSection, Integer> {
     Set<HomeCarouselSection> findAllByLocale_Name(String localeName);
 
     @Query("select hcs.imageName from HomeCarouselSection hcs where hcs.id = ?1")
     String findImageNameById(int id);
 
     @Query("select new com.gungorefe.simpleportfolio.entity.page.component.HomeCarouselSection(hcs.id, hcs.imageName, hcs.home.id, hcs.locale.id) " +
-            "from HomeCarouselSection hcs where hcs.id = ?1")
-    Optional<HomeCarouselSection> findIdAndImageNameAndHomeAndLocaleById(int id);
+            "from HomeCarouselSection hcs where hcs.id = ?1 and hcs.locale.name = ?2")
+    Optional<HomeCarouselSection> findIdAndImageNameAndHomeAndLocaleByIdAndLocale_Name(int id, String localeName);
 
     @Query("select new com.gungorefe.simpleportfolio.entity.page.component.HomeCarouselSection(hcs.id, hcs.imageName) " +
-            "from HomeCarouselSection hcs where hcs.id = ?1")
-    Optional<HomeCarouselSection> findIdAndImageNameById(int id);
+            "from HomeCarouselSection hcs where hcs.id = ?1 and hcs.locale.name = ?2")
+    Optional<HomeCarouselSection> findIdAndImageNameByIdAndLocale_Name(int id, String localeName);
 }

@@ -7,6 +7,7 @@ import com.gungorefe.simpleportfolio.dto.page.component.WorksDetailedCardDto;
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
 import com.gungorefe.simpleportfolio.util.WebUtils;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
+import com.gungorefe.simpleportfolio.vo.PageName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,8 @@ public class WorksDetailedCardController {
                 ComponentName.WORKS_DETAILED_CARD,
                 image,
                 request,
-                localeName
+                localeName,
+                PageName.WORKS
         );
 
         return ResponseEntity.ok().build();
@@ -71,27 +73,35 @@ public class WorksDetailedCardController {
     }
 
     @PutMapping(
-            value = "/competent",
+            value = "/competent/locale/{localeName}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ResponseEntity<Void> update(
+            @PathVariable String localeName,
             @RequestPart UpdateWorksDetailedCardRequest request,
             @RequestPart(required = false) MultipartFile image
     ) {
         service.update(
                 ComponentName.WORKS_DETAILED_CARD,
                 image,
-                request
+                request,
+                PageName.WORKS,
+                localeName
         );
 
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/competent/id/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    @DeleteMapping("/competent/id/{id}/locale/{localeName}")
+    public ResponseEntity<Void> delete(
+            @PathVariable int id,
+            @PathVariable String localeName
+    ) {
         service.delete(
                 ComponentName.WORKS_DETAILED_CARD,
-                id
+                id,
+                PageName.WORKS,
+                localeName
         );
 
         return ResponseEntity.ok().build();

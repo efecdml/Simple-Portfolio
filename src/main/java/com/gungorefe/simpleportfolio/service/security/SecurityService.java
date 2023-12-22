@@ -7,6 +7,8 @@ import com.gungorefe.simpleportfolio.repository.user.RoleRepository;
 import com.gungorefe.simpleportfolio.repository.user.UserRepository;
 import com.gungorefe.simpleportfolio.vo.RegexPattern;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -18,6 +20,10 @@ public class SecurityService {
     private final RoleRepository roleRepository;
     private final LoginAttemptService loginAttemptService;
 
+    @CacheEvict(
+            value = "users",
+            key = "#user.email"
+    )
     public User saveUser(User user) {
         return userRepository.save(user);
     }
@@ -29,6 +35,10 @@ public class SecurityService {
      * BruteForceAuthenticationAttemptException.
      *
      * At last returns the User object. */
+    @Cacheable(
+            value = "users",
+            key = "#username"
+    )
     public User getUser(
             boolean secure,
             String username
@@ -48,6 +58,10 @@ public class SecurityService {
         return user;
     }
 
+    @Cacheable(
+            value = "roles",
+            key = "#roleName"
+    )
     public Role getRole(String roleName) {
         Role role = roleRepository.findByName(roleName).orElseThrow(() -> ExceptionFactory.getRoleNotFoundException(roleName));
 
@@ -66,6 +80,10 @@ public class SecurityService {
         return exists;
     }
 
+    @CacheEvict(
+            value = "users",
+            key = "#username"
+    )
     public void delete(String username) {
         User user = userRepository.findIdByEmail(username).orElseThrow(() -> ExceptionFactory.getUserNotFoundException(username));
 

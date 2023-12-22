@@ -8,6 +8,7 @@ import com.gungorefe.simpleportfolio.entity.page.component.ContactPhone;
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
 import com.gungorefe.simpleportfolio.vo.LocaleName;
+import com.gungorefe.simpleportfolio.vo.PageName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,11 +27,14 @@ public class ContactPhoneServiceTest {
     @Autowired
     private ComponentService service;
     private final int id = 1;
+    private final PageName pageName = PageName.CONTACT;
+    private final String localeName = LocaleName.TURKISH.value;
+    private final ComponentName componentName = ComponentName.CONTACT_PHONE;
 
     @Test
     public void givenContactPhoneId1_shouldReturnContactPhoneDto() {
         ComponentDto dto = service.getDto(
-                ComponentName.CONTACT_PHONE,
+                componentName,
                 id
         );
 
@@ -45,10 +49,11 @@ public class ContactPhoneServiceTest {
                 2
         );
         ContactPhone contactPhone = (ContactPhone) service.create(
-                ComponentName.CONTACT_PHONE,
+                componentName,
                 null,
                 request,
-                LocaleName.TURKISH.value
+                localeName,
+                pageName
         );
 
         assertEquals(request.tag(), contactPhone.getTag());
@@ -65,9 +70,11 @@ public class ContactPhoneServiceTest {
                 6
         );
         ContactPhone contactPhone = (ContactPhone) service.update(
-                ComponentName.CONTACT_PHONE,
+                componentName,
                 null,
-                request
+                request,
+                pageName,
+                localeName
         );
 
         assertEquals(request.tag(), contactPhone.getTag());
@@ -78,8 +85,10 @@ public class ContactPhoneServiceTest {
     @Test
     public void givenContactPhoneId_shouldDeleteContactPhone() {
         assertDoesNotThrow(() -> service.delete(
-                ComponentName.CONTACT_PHONE,
-                id
+                componentName,
+                id,
+                pageName,
+                localeName
         ));
     }
 }

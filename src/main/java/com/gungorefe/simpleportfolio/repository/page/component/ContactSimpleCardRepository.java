@@ -16,10 +16,10 @@ public interface ContactSimpleCardRepository extends JpaRepository<ContactSimple
     String findImageNameById(int id);
 
     @Query("select new com.gungorefe.simpleportfolio.entity.page.component.ContactSimpleCard(csc.id, csc.imageName, csc.contact.id, csc.locale.id) " +
-            "from ContactSimpleCard csc where csc.id = ?1")
-    Optional<ContactSimpleCard> findIdAndImageNameAndContactAndLocaleById(int id);
+            "from ContactSimpleCard csc where csc.id = ?1 and csc.locale.name = ?2")
+    Optional<ContactSimpleCard> findIdAndImageNameAndContactAndLocaleByIdAndLocale_Name(int id, String localeName);
 
     @Query("select new com.gungorefe.simpleportfolio.entity.page.component.ContactSimpleCard(csc.id, csc.imageName) " +
-            "from ContactSimpleCard csc where csc.id = ?1")
-    Optional<ContactSimpleCard> findIdAndImageNameById(int id);
+            "from ContactSimpleCard csc where csc.id = ?1 and csc.locale.name = ?2")
+    Optional<ContactSimpleCard> findIdAndImageNameByIdAndLocale_Name(int id, String localeName);
 }

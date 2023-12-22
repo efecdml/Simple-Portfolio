@@ -6,6 +6,9 @@ import com.gungorefe.simpleportfolio.entity.page.Page;
 import com.gungorefe.simpleportfolio.vo.LocaleName;
 import com.gungorefe.simpleportfolio.vo.PageName;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +21,10 @@ public class PageService {
     private final AboutService aboutService;
     private final ContactService contactService;
 
+    @Cacheable(
+            value = "pages",
+            key = "#pageName.value+#localeName"
+    )
     public PageDto getDto(
             String localeName,
             PageName pageName
@@ -32,6 +39,10 @@ public class PageService {
         };
     }
 
+    @Cacheable(
+            value = "pageImages",
+            key = "#pageName.value+#localeName"
+    )
     public Image getImage(
             PageName pageName,
             String localeName,
@@ -50,6 +61,16 @@ public class PageService {
         };
     }
 
+    @Caching(evict = {
+            @CacheEvict(
+                    value = "pages",
+                    key = "#pageName.value+#localeName"
+            ),
+            @CacheEvict(
+                    value = "pageImages",
+                    key = "#pageName.value+#localeName"
+            )
+    })
     public Page update(
             String localeName,
             PageName pageName,

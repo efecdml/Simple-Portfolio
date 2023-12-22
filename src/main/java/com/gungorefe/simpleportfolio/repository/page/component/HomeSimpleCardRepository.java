@@ -16,10 +16,10 @@ public interface HomeSimpleCardRepository extends JpaRepository<HomeSimpleCard, 
     String findImageNameById(int id);
 
     @Query("select new com.gungorefe.simpleportfolio.entity.page.component.HomeSimpleCard(hsc.id, hsc.imageName, hsc.home.id, hsc.locale.id) " +
-            "from HomeSimpleCard hsc where hsc.id = ?1")
-    Optional<HomeSimpleCard> findIdAndImageNameAndHomeAndLocaleById(int id);
+            "from HomeSimpleCard hsc where hsc.id = ?1 and hsc.locale.name = ?2")
+    Optional<HomeSimpleCard> findIdAndImageNameAndHomeAndLocaleByIdAndLocale_Name(int id, String localeName);
 
     @Query("select new com.gungorefe.simpleportfolio.entity.page.component.HomeSimpleCard(hsc.id, hsc.imageName) " +
-            "from HomeSimpleCard hsc where hsc.id = ?1")
-    Optional<HomeSimpleCard> findIdAndImageNameById(int id);
+            "from HomeSimpleCard hsc where hsc.id = ?1 and hsc.locale.name = ?2")
+    Optional<HomeSimpleCard> findIdAndImageNameByIdAndLocale_Name(int id, String localeName);
 }

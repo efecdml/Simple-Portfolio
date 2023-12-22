@@ -34,8 +34,6 @@ public class HomeCarouselSectionService {
             String localeName,
             CreateHomeCarouselSectionRequest request
     ) {
-        LocaleName.validate(localeName);
-
         String imageName = imageService.save(
                 image,
                 null
@@ -81,13 +79,16 @@ public class HomeCarouselSectionService {
 
     public HomeCarouselSection update(
             @Nullable MultipartFile image,
-            UpdateHomeCarouselSectionRequest request
+            UpdateHomeCarouselSectionRequest request,
+            String localeName
     ) {
-        HomeCarouselSection homeCarouselSection = repository.findIdAndImageNameAndHomeAndLocaleById(request.id()).orElseThrow(() ->
-                ExceptionFactory.getComponentNotFoundException(
-                        ComponentName.HOME_CAROUSEL_SECTION,
-                        request.id()
-                ));
+        HomeCarouselSection homeCarouselSection = repository.findIdAndImageNameAndHomeAndLocaleByIdAndLocale_Name(
+                request.id(),
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.HOME_CAROUSEL_SECTION,
+                request.id()
+        ));
         String currentImageName = homeCarouselSection.getImageName();
         String imageName = image == null
                 ? currentImageName
@@ -101,12 +102,17 @@ public class HomeCarouselSectionService {
         return repository.save(newHomeCarouselSection);
     }
 
-    public void delete(int id) {
-        HomeCarouselSection homeCarouselSection = repository.findIdAndImageNameById(id).orElseThrow(() -> ExceptionFactory
-                .getComponentNotFoundException(
-                        ComponentName.HOME_CAROUSEL_SECTION,
-                        id
-                ));
+    public void delete(
+            int id,
+            String localeName
+    ) {
+        HomeCarouselSection homeCarouselSection = repository.findIdAndImageNameByIdAndLocale_Name(
+                id,
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.HOME_CAROUSEL_SECTION,
+                id
+        ));
 
         repository.delete(homeCarouselSection);
         imageService.delete(homeCarouselSection.getImageName());

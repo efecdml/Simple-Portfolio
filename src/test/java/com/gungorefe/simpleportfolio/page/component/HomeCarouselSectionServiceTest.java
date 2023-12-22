@@ -10,6 +10,7 @@ import com.gungorefe.simpleportfolio.service.ImageService;
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
 import com.gungorefe.simpleportfolio.vo.LocaleName;
+import com.gungorefe.simpleportfolio.vo.PageName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +36,9 @@ public class HomeCarouselSectionServiceTest {
     private ImageService imageService;
     private final String imageName = "image1.jpg";
     private final int id = 1;
+    private final PageName pageName = PageName.HOME;
+    private final ComponentName componentName = ComponentName.HOME_CAROUSEL_SECTION;
+    private final String localeName = LocaleName.TURKISH.value;
 
     @Test
     public void givenHomeCarouselSectionImageNameAndId1_shouldReturnHomeCarouselSection() {
@@ -60,10 +64,11 @@ public class HomeCarouselSectionServiceTest {
                 image.bytes()
         );
         HomeCarouselSection homeCarouselSection = (HomeCarouselSection) componentService.create(
-                ComponentName.HOME_CAROUSEL_SECTION,
+                componentName,
                 imageFile,
                 request,
-                LocaleName.ENGLISH.value
+                localeName,
+                pageName
         );
 
         assertEquals(request.text(), homeCarouselSection.getText());
@@ -78,9 +83,11 @@ public class HomeCarouselSectionServiceTest {
                 8
         );
         HomeCarouselSection homeCarouselSection = (HomeCarouselSection) componentService.update(
-                ComponentName.HOME_CAROUSEL_SECTION,
+                componentName,
                 null,
-                request
+                request,
+                pageName,
+                localeName
         );
 
         assertEquals(request.text(), homeCarouselSection.getText());
@@ -91,8 +98,10 @@ public class HomeCarouselSectionServiceTest {
     public void givenHomeCarouselSectionId_shouldDeleteHomeCarouselSection() {
         assertDoesNotThrow(() -> {
             componentService.delete(
-                    ComponentName.HOME_CAROUSEL_SECTION,
-                    id
+                    componentName,
+                    id,
+                    pageName,
+                    localeName
             );
         });
         assertThrowsExactly(

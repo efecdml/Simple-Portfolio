@@ -6,6 +6,7 @@ import com.gungorefe.simpleportfolio.dto.page.component.UpdateContactPhoneReques
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
 import com.gungorefe.simpleportfolio.util.WebUtils;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
+import com.gungorefe.simpleportfolio.vo.PageName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,8 @@ public class ContactPhoneController {
                 ComponentName.CONTACT_PHONE,
                 null,
                 request,
-                localeName
+                localeName,
+                PageName.CONTACT
         );
 
         return ResponseEntity.ok().build();
@@ -48,22 +50,32 @@ public class ContactPhoneController {
         return ResponseEntity.ok(service.getAllContactPhoneDtos(localeName));
     }
 
-    @PutMapping("/competent")
-    public ResponseEntity<Void> update(@RequestBody UpdateContactPhoneRequest request) {
+    @PutMapping("/competent/locale/{localeName}")
+    public ResponseEntity<Void> update(
+            @PathVariable String localeName,
+            @RequestBody UpdateContactPhoneRequest request
+    ) {
         service.update(
                 ComponentName.CONTACT_PHONE,
                 null,
-                request
+                request,
+                PageName.CONTACT,
+                localeName
         );
 
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/competent/id/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
+    @DeleteMapping("/competent/id/{id}/locale/{localeName}")
+    public ResponseEntity<Void> delete(
+            @PathVariable int id,
+            @PathVariable String localeName
+    ) {
         service.delete(
                 ComponentName.CONTACT_PHONE,
-                id
+                id,
+                PageName.CONTACT,
+                localeName
         );
 
         return ResponseEntity.ok().build();

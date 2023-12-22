@@ -34,8 +34,6 @@ public class WorksDetailedCardService {
             String localeName,
             CreateWorksDetailedCardRequest request
     ) {
-        LocaleName.validate(localeName);
-
         String imageName = imageService.save(
                 image,
                 null
@@ -81,13 +79,16 @@ public class WorksDetailedCardService {
 
     public WorksDetailedCard update(
             @Nullable MultipartFile image,
-            UpdateWorksDetailedCardRequest request
+            UpdateWorksDetailedCardRequest request,
+            String localeName
     ) {
-        WorksDetailedCard worksDetailedCard = repository.findIdAndImageNameAndWorksAndLocaleById(request.id()).orElseThrow(() ->
-                ExceptionFactory.getComponentNotFoundException(
-                        ComponentName.WORKS_DETAILED_CARD,
-                        request.id()
-                ));
+        WorksDetailedCard worksDetailedCard = repository.findIdAndImageNameAndWorksAndLocaleByIdAndLocale_Name(
+                request.id(),
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.WORKS_DETAILED_CARD,
+                request.id()
+        ));
         String currentImageName = worksDetailedCard.getImageName();
         String imageName = image == null
                 ? currentImageName
@@ -101,12 +102,17 @@ public class WorksDetailedCardService {
         return repository.save(newWorksDetailedCard);
     }
 
-    public void delete(int id) {
-        WorksDetailedCard worksDetailedCard = repository.findIdAndImageNameById(id).orElseThrow(() -> ExceptionFactory
-                .getComponentNotFoundException(
-                        ComponentName.WORKS_DETAILED_CARD,
-                        id
-                ));
+    public void delete(
+            int id,
+            String localeName
+    ) {
+        WorksDetailedCard worksDetailedCard = repository.findIdAndImageNameByIdAndLocale_Name(
+                id,
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.WORKS_DETAILED_CARD,
+                id
+        ));
 
         repository.delete(worksDetailedCard);
         imageService.delete(worksDetailedCard.getImageName());

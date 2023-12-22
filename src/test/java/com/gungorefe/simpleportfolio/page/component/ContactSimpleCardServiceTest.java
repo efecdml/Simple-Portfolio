@@ -10,6 +10,7 @@ import com.gungorefe.simpleportfolio.service.ImageService;
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
 import com.gungorefe.simpleportfolio.vo.LocaleName;
+import com.gungorefe.simpleportfolio.vo.PageName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,11 +36,14 @@ public class ContactSimpleCardServiceTest {
     private ImageService imageService;
     private final String imageName = "image1.jpg";
     private final int id = 1;
+    private final PageName pageName = PageName.CONTACT;
+    private final ComponentName componentName = ComponentName.CONTACT_SIMPLE_CARD;
+    private final String localeName = LocaleName.TURKISH.value;
 
     @Test
     public void givenContactSimpleCardImageNameAndId1_shouldReturnContactSimpleCardDto() {
         ComponentDto dto = componentService.getDto(
-                ComponentName.CONTACT_SIMPLE_CARD,
+                componentName,
                 id
         );
 
@@ -61,10 +65,11 @@ public class ContactSimpleCardServiceTest {
                 image.bytes()
         );
         ContactSimpleCard contactSimpleCard = (ContactSimpleCard) componentService.create(
-                ComponentName.CONTACT_SIMPLE_CARD,
+                componentName,
                 imageFile,
                 request,
-                LocaleName.ENGLISH.value
+                localeName,
+                pageName
         );
 
         assertEquals(request.title(), contactSimpleCard.getTitle());
@@ -81,9 +86,11 @@ public class ContactSimpleCardServiceTest {
                 6
         );
         ContactSimpleCard contactSimpleCard = (ContactSimpleCard) componentService.update(
-                ComponentName.CONTACT_SIMPLE_CARD,
+                componentName,
                 null,
-                request
+                request,
+                pageName,
+                localeName
         );
 
         assertEquals(request.title(), contactSimpleCard.getTitle());
@@ -94,8 +101,10 @@ public class ContactSimpleCardServiceTest {
     @Test
     public void givenContactSimpleCardId_shouldDeleteContactSimpleCard() {
         assertDoesNotThrow(() -> componentService.delete(
-                ComponentName.CONTACT_SIMPLE_CARD,
-                id
+                componentName,
+                id,
+                pageName,
+                localeName
         ));
         assertThrowsExactly(
                 FileNotFoundException.class,

@@ -34,8 +34,6 @@ public class ContactSimpleCardService {
             String localeName,
             CreateContactSimpleCardRequest request
     ) {
-        LocaleName.validate(localeName);
-
         String imageName = imageService.save(
                 image,
                 null
@@ -81,13 +79,16 @@ public class ContactSimpleCardService {
 
     public ContactSimpleCard update(
             @Nullable MultipartFile image,
-            UpdateContactSimpleCardRequest request
+            UpdateContactSimpleCardRequest request,
+            String localeName
     ) {
-        ContactSimpleCard contactSimpleCard = repository.findIdAndImageNameAndContactAndLocaleById(request.id())
-                .orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
-                        ComponentName.CONTACT_SIMPLE_CARD,
-                        request.id()
-                ));
+        ContactSimpleCard contactSimpleCard = repository.findIdAndImageNameAndContactAndLocaleByIdAndLocale_Name(
+                request.id(),
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.CONTACT_SIMPLE_CARD,
+                request.id()
+        ));
         String currentImageName = contactSimpleCard.getImageName();
         String imageName = image == null
                 ? currentImageName
@@ -101,12 +102,17 @@ public class ContactSimpleCardService {
         return repository.save(newContactSimpleCard);
     }
 
-    public void delete(int id) {
-        ContactSimpleCard contactSimpleCard = repository.findIdAndImageNameById(id).orElseThrow(() -> ExceptionFactory
-                .getComponentNotFoundException(
-                        ComponentName.CONTACT_SIMPLE_CARD,
-                        id
-                ));
+    public void delete(
+            int id,
+            String localeName
+    ) {
+        ContactSimpleCard contactSimpleCard = repository.findIdAndImageNameByIdAndLocale_Name(
+                id,
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.CONTACT_SIMPLE_CARD,
+                id
+        ));
 
         repository.delete(contactSimpleCard);
         imageService.delete(contactSimpleCard.getImageName());

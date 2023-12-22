@@ -28,8 +28,6 @@ public class ContactPhoneService {
             String localeName,
             CreateContactPhoneRequest request
     ) {
-        LocaleName.validate(localeName);
-
         Contact contact = contactRepository.findIdAndLocaleIdByLocale_Name(localeName).orElseThrow(() -> ExceptionFactory
                 .getPageNotFoundException(PageName.CONTACT));
         ContactPhone contactPhone = dtoConverter.convertToContactPhone(
@@ -55,12 +53,17 @@ public class ContactPhoneService {
         return dtoConverter.convertToContactPhoneDtoSet(repository.findAllByLocale_Name(localeName));
     }
 
-    public ContactPhone update(UpdateContactPhoneRequest request) {
-        ContactPhone contactPhone = repository.findIdAndContactAndLocaleById(request.id())
-                .orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
-                        ComponentName.CONTACT_PHONE,
-                        request.id()
-                ));
+    public ContactPhone update(
+            UpdateContactPhoneRequest request,
+            String localeName
+    ) {
+        ContactPhone contactPhone = repository.findIdAndContactAndLocaleByIdAndLocale_Name(
+                request.id(),
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.CONTACT_PHONE,
+                request.id()
+        ));
         ContactPhone newContactPhone = dtoConverter.convertToContactPhone(
                 contactPhone,
                 request
@@ -69,8 +72,14 @@ public class ContactPhoneService {
         return repository.save(newContactPhone);
     }
 
-    public void delete(int id) {
-        boolean exists = repository.existsById(id);
+    public void delete(
+            int id,
+            String localeName
+    ) {
+        boolean exists = repository.existsByIdAndLocale_Name(
+                id,
+                localeName
+        );
 
         if (!exists) {
             throw ExceptionFactory.getComponentNotFoundException(

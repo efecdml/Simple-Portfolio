@@ -10,6 +10,7 @@ import com.gungorefe.simpleportfolio.service.ImageService;
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
 import com.gungorefe.simpleportfolio.vo.LocaleName;
+import com.gungorefe.simpleportfolio.vo.PageName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +36,9 @@ public class WorksDetailedCardServiceTest {
     private ImageService imageService;
     private final String imageName = "image1.jpg";
     private final int id = 1;
+    private final PageName pageName = PageName.WORKS;
+    private final ComponentName componentName = ComponentName.WORKS_DETAILED_CARD;
+    private final String localeName = LocaleName.TURKISH.value;
 
     @Test
     public void givenWorksDetailedCardImageNameAndId1_shouldReturnWorksDetailedCardDto() {
@@ -61,10 +65,11 @@ public class WorksDetailedCardServiceTest {
                 image.bytes()
         );
         WorksDetailedCard worksDetailedCard = (WorksDetailedCard) componentService.create(
-                ComponentName.WORKS_DETAILED_CARD,
+                componentName,
                 imageFile,
                 request,
-                LocaleName.TURKISH.value
+                localeName,
+                pageName
         );
 
         assertEquals(request.title(), worksDetailedCard.getTitle());
@@ -81,9 +86,11 @@ public class WorksDetailedCardServiceTest {
                 8
         );
         WorksDetailedCard worksDetailedCard = (WorksDetailedCard) componentService.update(
-                ComponentName.WORKS_DETAILED_CARD,
+                componentName,
                 null,
-                request
+                request,
+                pageName,
+                localeName
         );
 
         assertEquals(request.title(), worksDetailedCard.getTitle());
@@ -95,8 +102,10 @@ public class WorksDetailedCardServiceTest {
     public void givenWorksDetailedCardId_shouldDeleteWorksDetailedCard() {
         assertDoesNotThrow(() -> {
             componentService.delete(
-                    ComponentName.WORKS_DETAILED_CARD,
-                    id
+                    componentName,
+                    id,
+                    pageName,
+                    localeName
             );
         });
         assertThrowsExactly(

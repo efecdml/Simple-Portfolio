@@ -10,6 +10,7 @@ import com.gungorefe.simpleportfolio.service.ImageService;
 import com.gungorefe.simpleportfolio.service.page.component.ComponentService;
 import com.gungorefe.simpleportfolio.vo.ComponentName;
 import com.gungorefe.simpleportfolio.vo.LocaleName;
+import com.gungorefe.simpleportfolio.vo.PageName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +36,9 @@ public class HomeSimpleCardServiceTest {
     private ImageService imageService;
     private final String imageName = "image1.jpg";
     private final int id = 1;
+    private final PageName pageName = PageName.HOME;
+    private final ComponentName componentName = ComponentName.HOME_SIMPLE_CARD;
+    private final String localeName = LocaleName.TURKISH.value;
 
     @Test
     public void givenHomeSimpleCardImageNameAndId1_shouldReturnHomeSimpleCardDto() {
@@ -61,10 +65,11 @@ public class HomeSimpleCardServiceTest {
                 image.bytes()
         );
         HomeSimpleCard homeSimpleCard = (HomeSimpleCard) componentService.create(
-                ComponentName.HOME_SIMPLE_CARD,
+                componentName,
                 imageFile,
                 request,
-                LocaleName.ENGLISH.value
+                localeName,
+                pageName
         );
 
         assertEquals(request.title(), homeSimpleCard.getTitle());
@@ -81,9 +86,11 @@ public class HomeSimpleCardServiceTest {
                 8
         );
         HomeSimpleCard homeSimpleCard = (HomeSimpleCard) componentService.update(
-                ComponentName.HOME_SIMPLE_CARD,
+                componentName,
                 null,
-                request
+                request,
+                pageName,
+                localeName
         );
 
         assertEquals(request.title(), homeSimpleCard.getTitle());
@@ -95,8 +102,10 @@ public class HomeSimpleCardServiceTest {
     public void givenHomeSimpleCardId_shouldDeleteHomeSimpleCard() {
         assertDoesNotThrow(() -> {
             componentService.delete(
-                    ComponentName.HOME_SIMPLE_CARD,
-                    id
+                    componentName,
+                    id,
+                    pageName,
+                    localeName
             );
         });
         assertThrowsExactly(

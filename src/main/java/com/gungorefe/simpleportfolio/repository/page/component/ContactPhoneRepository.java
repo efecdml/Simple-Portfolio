@@ -13,6 +13,8 @@ public interface ContactPhoneRepository extends JpaRepository<ContactPhone, Inte
     Set<ContactPhone> findAllByLocale_Name(String localeName);
 
     @Query("select new com.gungorefe.simpleportfolio.entity.page.component.ContactPhone(cp.id, cp.contact.id, cp.locale.id) " +
-            "from ContactPhone cp where cp.id = ?1")
-    Optional<ContactPhone> findIdAndContactAndLocaleById(int id);
+            "from ContactPhone cp where cp.id = ?1 and cp.locale.name = ?2")
+    Optional<ContactPhone> findIdAndContactAndLocaleByIdAndLocale_Name(int id, String localeName);
+
+    Boolean existsByIdAndLocale_Name(int id, String localeName);
 }

@@ -34,8 +34,6 @@ public class HomeSimpleCardService {
             String localeName,
             CreateHomeSimpleCardRequest request
     ) {
-        LocaleName.validate(localeName);
-
         String imageName = imageService.save(
                 image,
                 null
@@ -81,13 +79,16 @@ public class HomeSimpleCardService {
 
     public HomeSimpleCard update(
             @Nullable MultipartFile image,
-            UpdateHomeSimpleCardRequest request
+            UpdateHomeSimpleCardRequest request,
+            String localeName
     ) {
-        HomeSimpleCard homeSimpleCard = repository.findIdAndImageNameAndHomeAndLocaleById(request.id()).orElseThrow(() ->
-                ExceptionFactory.getComponentNotFoundException(
-                        ComponentName.HOME_SIMPLE_CARD,
-                        request.id()
-                ));
+        HomeSimpleCard homeSimpleCard = repository.findIdAndImageNameAndHomeAndLocaleByIdAndLocale_Name(
+                request.id(),
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.HOME_SIMPLE_CARD,
+                request.id()
+        ));
         String currentImageName = homeSimpleCard.getImageName();
         String imageName = image == null
                 ? currentImageName
@@ -101,12 +102,17 @@ public class HomeSimpleCardService {
         return repository.save(newHomeSimpleCard);
     }
 
-    public void delete(int id) {
-        HomeSimpleCard homeSimpleCard = repository.findIdAndImageNameById(id).orElseThrow(() -> ExceptionFactory
-                .getComponentNotFoundException(
-                        ComponentName.HOME_SIMPLE_CARD,
-                        id
-                ));
+    public void delete(
+            int id,
+            String localeName
+    ) {
+        HomeSimpleCard homeSimpleCard = repository.findIdAndImageNameByIdAndLocale_Name(
+                id,
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.HOME_SIMPLE_CARD,
+                id
+        ));
 
         repository.delete(homeSimpleCard);
         imageService.delete(homeSimpleCard.getImageName());

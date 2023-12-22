@@ -34,8 +34,6 @@ public class AboutSimpleCardService {
             String localeName,
             CreateAboutSimpleCardRequest request
     ) {
-        LocaleName.validate(localeName);
-
         String imageName = imageService.save(
                 image,
                 null
@@ -81,13 +79,16 @@ public class AboutSimpleCardService {
 
     public AboutSimpleCard update(
             @Nullable MultipartFile image,
-            UpdateAboutSimpleCardRequest request
+            UpdateAboutSimpleCardRequest request,
+            String localeName
     ) {
-        AboutSimpleCard aboutSimpleCard = repository.findIdAndImageNameAndAboutAndLocaleById(request.id()).orElseThrow(() ->
-                ExceptionFactory.getComponentNotFoundException(
-                        ComponentName.ABOUT_SIMPLE_CARD,
-                        request.id()
-                ));
+        AboutSimpleCard aboutSimpleCard = repository.findIdAndImageNameAndAboutAndLocaleByIdAndLocale_Name(
+                request.id(),
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.ABOUT_SIMPLE_CARD,
+                request.id()
+        ));
         String currentImageName = aboutSimpleCard.getImageName();
         String imageName = image == null
                 ? currentImageName
@@ -101,12 +102,17 @@ public class AboutSimpleCardService {
         return repository.save(newAboutSimpleCard);
     }
 
-    public void delete(int id) {
-        AboutSimpleCard aboutSimpleCard = repository.findIdAndImageNameById(id).orElseThrow(() -> ExceptionFactory
-                .getComponentNotFoundException(
-                        ComponentName.ABOUT_SIMPLE_CARD,
-                        id
-                ));
+    public void delete(
+            int id,
+            String localeName
+    ) {
+        AboutSimpleCard aboutSimpleCard = repository.findIdAndImageNameByIdAndLocale_Name(
+                id,
+                localeName
+        ).orElseThrow(() -> ExceptionFactory.getComponentNotFoundException(
+                ComponentName.ABOUT_SIMPLE_CARD,
+                id
+        ));
 
         repository.delete(aboutSimpleCard);
         imageService.delete(aboutSimpleCard.getImageName());

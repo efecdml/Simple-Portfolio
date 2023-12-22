@@ -16,10 +16,10 @@ public interface WorksDetailedCardRepository extends JpaRepository<WorksDetailed
     String findImageNameById(int id);
 
     @Query("select new com.gungorefe.simpleportfolio.entity.page.component.WorksDetailedCard(wdc.id, wdc.imageName, wdc.works.id, wdc.locale.id) " +
-            "from WorksDetailedCard wdc where wdc.id = ?1")
-    Optional<WorksDetailedCard> findIdAndImageNameAndWorksAndLocaleById(int id);
+            "from WorksDetailedCard wdc where wdc.id = ?1 and wdc.locale.name = ?2")
+    Optional<WorksDetailedCard> findIdAndImageNameAndWorksAndLocaleByIdAndLocale_Name(int id, String localeName);
 
     @Query("select new com.gungorefe.simpleportfolio.entity.page.component.WorksDetailedCard(wdc.id, wdc.imageName) " +
-            "from WorksDetailedCard wdc where wdc.id = ?1")
-    Optional<WorksDetailedCard> findIdAndImageNameById(int id);
+            "from WorksDetailedCard wdc where wdc.id = ?1 and wdc.locale.name = ?2")
+    Optional<WorksDetailedCard> findIdAndImageNameByIdAndLocale_Name(int id, String localeName);
 }
