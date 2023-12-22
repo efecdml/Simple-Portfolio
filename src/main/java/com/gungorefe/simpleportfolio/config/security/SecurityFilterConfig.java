@@ -18,6 +18,7 @@ public class SecurityFilterConfig {
     private final AuthenticationProvider authProvider;
     private final JwtAuthenticationFilter jwtAuthFilter;
     private static final String[] blacklist = {
+            "/api/pages/page/about/component/simple-card/competent/**",
             "/api/pages/page/contact/component/phone/competent/**",
             "/api/pages/page/contact/component/simple-card/competent/**",
             "/api/pages/page/home/component/carousel-section/competent/**",
